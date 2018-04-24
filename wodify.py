@@ -55,11 +55,15 @@ for accounts in listofaccounts:
 					exercise.append(None)
 				if "metcon" not in exercise[0].lower():
 					splitexcercise = (re.split("[,@|:]+", exercise[0]))
+					if len(splitexcercise) < 3:
+						splitexcercise.append(None)
 					insertvalue = [theaccount.created_at.strftime("%Y/%m/%d"), splitexcercise[0],splitexcercise[1], splitexcercise[2], exercise[1]]
 					print "Columns:", insertvalue
 					wks.append_row(insertvalue)
 				else:
 					splitexcercise = (re.split("[,@| ]+", exercise[0].rstrip()))
+					if len(splitexcercise) < 2:
+						splitexcercise.append(None)
 					insertvalue = [theaccount.created_at.strftime("%Y/%m/%d"), splitexcercise[0].split(":")[0], splitexcercise[1], None, exercise[1]]
 					print "Columns:", insertvalue
 					wks.append_row(insertvalue)
