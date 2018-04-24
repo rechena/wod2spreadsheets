@@ -11,6 +11,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 
+#authfile for google drive
 authfile = ('/PATH TO AUTH FILE/gdrive.json')
 credentials = ServiceAccountCredentials.from_json_keyfile_name(authfile, scope)
 
@@ -31,7 +32,7 @@ api = tweepy.API(auth,wait_on_rate_limit=True)
 #words to replace
 words = ["#wodify", "Comment:"]
 
-#accounts to look for tweets
+#twitter accounts to check for #wodify
 listofaccounts = ["twitteraccount1", "twitteraccount2"]
 
 #spreadsheet where the data will be pushed
