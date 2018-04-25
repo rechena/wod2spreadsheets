@@ -22,6 +22,7 @@ This is the list of Python Modules you are going to need to install:
 * re
 * pandas
 * gspread
+* argparse
 
 After you have these modules installed we are going to need to get both Twitter and Google Spreadsheets Credentials. 
 

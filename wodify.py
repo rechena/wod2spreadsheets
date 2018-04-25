@@ -4,6 +4,19 @@ import tweepy
 import csv, re
 import pandas as pd
 import gspread
+import argparse
+
+parser = argparse.ArgumentParser(
+    description=__doc__)
+
+parser.add_argument('--dryrun', help='Run in DryRun Mode - Do not update spreadsheets', action="store_true")
+parser.add_argument('-s', '--spreadsheet', help='Pass the spreadsheet as a option (If the spreadsheet has spaces in the name pass it with "" (e.g.: "this is a test")')
+parser.add_argument('--version', action='version', version='%(prog)s 1.0')
+
+args = parser.parse_args()
+
+spreadsheet = args.spreadsheet
+dryrun = args.dryrun
 
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -11,7 +24,6 @@ from oauth2client.service_account import ServiceAccountCredentials
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 
-#authfile for google drive
 authfile = ('/PATH TO AUTH FILE/gdrive.json')
 credentials = ServiceAccountCredentials.from_json_keyfile_name(authfile, scope)
 
@@ -32,11 +44,12 @@ api = tweepy.API(auth,wait_on_rate_limit=True)
 #words to replace
 words = ["#wodify", "Comment:"]
 
-#twitter accounts to check for #wodify
+#accounts to look for tweets
 listofaccounts = ["twitteraccount1", "twitteraccount2"]
 
 #spreadsheet where the data will be pushed
-spreadsheet = "Wodify - Crossfit"
+if not spreadsheet:
+	spreadsheet = "Wodify - Crossfit"
 
 #date
 days_to_subtract = 1
@@ -60,11 +73,13 @@ for accounts in listofaccounts:
 						splitexcercise.append(None)
 					insertvalue = [theaccount.created_at.strftime("%Y/%m/%d"), splitexcercise[0],splitexcercise[1], splitexcercise[2], exercise[1]]
 					print "Columns:", insertvalue
-					wks.append_row(insertvalue)
+					if not dryrun:
+						wks.append_row(insertvalue)
 				else:
 					splitexcercise = (re.split("[,@| ]+", exercise[0].rstrip()))
 					if len(splitexcercise) < 2:
 						splitexcercise.append(None)
 					insertvalue = [theaccount.created_at.strftime("%Y/%m/%d"), splitexcercise[0].split(":")[0], splitexcercise[1], None, exercise[1]]
 					print "Columns:", insertvalue
-					wks.append_row(insertvalue)
+					if not dryrun:
+						wks.append_row(insertvalue)
