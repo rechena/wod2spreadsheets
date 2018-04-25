@@ -1,7 +1,7 @@
 argparse
-tweepy
-requests
-gspread
-pandas
-oauthlib
-oauth2client
+tweepy==3.5.0
+requests==2.18.4
+gspread==2.1.1
+pandas==0.22.0
+oauthlib==2.0.6
+oauth2client==4.1.2
