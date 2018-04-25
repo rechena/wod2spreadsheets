@@ -24,11 +24,11 @@ from oauth2client.service_account import ServiceAccountCredentials
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 
+#authfile for google drive
 authfile = ('/PATH TO AUTH FILE/gdrive.json')
 credentials = ServiceAccountCredentials.from_json_keyfile_name(authfile, scope)
 
 gc = gspread.authorize(credentials)
-
 
 # Twitter auth - Consumer keys and access tokens, used for OAuth  
 consumer_key = '<add consumer_key>'  
@@ -41,17 +41,17 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)  
 api = tweepy.API(auth,wait_on_rate_limit=True)
 
-#words to replace
+# words to replace
 words = ["#wodify", "Comment:"]
 
-##twitter accounts to check for #wodify
+# twitter accounts to check for #wodify
 listofaccounts = ["twitteraccount1", "twitteraccount2"]
 
-#spreadsheet where the data will be pushed
+# spreadsheet where the data will be pushed if not passed as a arg
 if not spreadsheet:
 	spreadsheet = "Wodify - Crossfit"
 
-#date
+# date
 days_to_subtract = 1
 onedayback = datetime.today() - timedelta(days=days_to_subtract)
 
