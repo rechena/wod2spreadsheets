@@ -1,0 +1,7 @@
+argparse
+tweepy
+requests
+gspread
+pandas
+oauthlib
+oauth2client

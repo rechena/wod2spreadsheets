@@ -18,11 +18,16 @@ This is the list of Python Modules you are going to need to install:
 
 * datetime
 * tweepy
-* csv
 * re
 * pandas
 * gspread
 * argparse
+
+There's a requirements.txt file with the modules you need. Just run:
+
+```
+pip install -r requirements.txt
+```
 
 After you have these modules installed we are going to need to get both Twitter and Google Spreadsheets Credentials. 
 
