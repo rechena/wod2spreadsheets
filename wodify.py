@@ -44,7 +44,7 @@ api = tweepy.API(auth,wait_on_rate_limit=True)
 #words to replace
 words = ["#wodify", "Comment:"]
 
-#accounts to look for tweets
+##twitter accounts to check for #wodify
 listofaccounts = ["twitteraccount1", "twitteraccount2"]
 
 #spreadsheet where the data will be pushed
