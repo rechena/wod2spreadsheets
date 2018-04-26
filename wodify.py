@@ -61,39 +61,51 @@ onedayback = datetime.today() - timedelta(days=days_to_subtract)
 
 formateddate = onedayback.strftime("%Y,%-m,%-d")
 
-for accounts in listofaccounts:
-	for theaccount in api.user_timeline(screen_name = accounts, count = 10):
-		if theaccount.created_at.strftime("%Y,%-m,%-d") == formateddate:
-			if "#wodify" in theaccount.text:
-				if not worksheet:
-					#uses the first name of your twitter auther.name
-					worksheet = theaccount.author.name.split()[0]
-				try:
-					wks = gc.open(spreadsheet).worksheet(worksheet)
-				except gspread.exceptions.WorksheetNotFound:
-					print "[INFO] No worksheet with named %s exists. Creating..." % (worksheet)
-					wks = gc.open(spreadsheet).add_worksheet(title=worksheet, rows="100", cols="20")
-					wks = gc.open(spreadsheet).worksheet(worksheet)
-					#Add Header row
-					insertvalue = ["Date","Exercise","Reps/Time","Weight","Comments"]
-					wks.append_row(insertvalue)
-				print "Tweet:", (theaccount.created_at, theaccount.author.name, theaccount.text)
-				exercise = ' '.join(i for i in theaccount.text.split() if i not in words).split("|")
-				if len(exercise) < 2:
-					exercise.append(None)
-				if "metcon" not in exercise[0].lower():
-					splitexcercise = (re.split("[,@|:]+", exercise[0].rstrip()))
-					if len(splitexcercise) < 3:
-						splitexcercise.append(None)
-					insertvalue = [theaccount.created_at.strftime("%Y/%m/%d"), splitexcercise[0],splitexcercise[1], splitexcercise[2], exercise[1]]
-					print "Columns:", insertvalue
-					if not dryrun:
-						wks.append_row(insertvalue)
-				else:
-					splitexcercise = (re.split("[,@| ]+", exercise[0].rstrip()))
-					if len(splitexcercise) < 2:
-						splitexcercise.append(None)
-					insertvalue = [theaccount.created_at.strftime("%Y/%m/%d"), splitexcercise[0].split(":")[0], splitexcercise[1], None, exercise[1]]
-					print "Columns:", insertvalue
-					if not dryrun:
-						wks.append_row(insertvalue)
+def main():
+	global worksheet
+	if dryrun:
+		print "[INFO] Running in dryrun mode, not data will be updated on \"%s\" or worksheets created" % (spreadsheet)
+		print "====================\n"
+	try:
+		for accounts in listofaccounts:
+			for theaccount in api.user_timeline(screen_name = accounts, count = 10):
+				if theaccount.created_at.strftime("%Y,%-m,%-d") == formateddate:
+					if "#wodify" in theaccount.text:
+						if not worksheet:
+							#uses the first name of your twitter auther.name
+							worksheet = theaccount.author.name.split()[0]
+						try:
+							wks = gc.open(spreadsheet).worksheet(worksheet)
+						except gspread.exceptions.WorksheetNotFound:
+							if not dryrun:
+								print "[INFO] No worksheet with named %s exists. Creating..." % (worksheet)
+								wks = gc.open(spreadsheet).add_worksheet(title=worksheet, rows="100", cols="20")
+								wks = gc.open(spreadsheet).worksheet(worksheet)
+								#Add Header row
+								insertheader = ["Date","Exercise","Reps/Time","Weight","Comments"]
+								wks.append_row(insertheader)	
+						print "Tweet:", (theaccount.created_at, theaccount.author.name, theaccount.text)
+						exercise = ' '.join(i for i in theaccount.text.split() if i not in words).split("|")
+						if len(exercise) < 2:
+							exercise.append(None)
+						if "metcon" not in exercise[0].lower():
+							splitexcercise = (re.split("[,@|:]+", exercise[0].rstrip()))
+							if len(splitexcercise) < 3:
+								splitexcercise.append(None)
+							insertvalue = [theaccount.created_at.strftime("%Y/%m/%d"), splitexcercise[0],splitexcercise[1], splitexcercise[2], exercise[1]]
+							print "Columns:", insertvalue
+							if not dryrun:
+								wks.append_row(insertvalue)
+						else:
+							splitexcercise = (re.split("[,@| ]+", exercise[0].rstrip()))
+							if len(splitexcercise) < 2:
+								splitexcercise.append(None)
+							insertvalue = [theaccount.created_at.strftime("%Y/%m/%d"), splitexcercise[0].split(":")[0], splitexcercise[1], None, exercise[1]]
+							print "Columns:", insertvalue
+							if not dryrun:
+								wks.append_row(insertvalue)
+	except Exception as e:
+		print e
+
+if __name__ == "__main__":
+    main()
