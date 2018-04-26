@@ -69,6 +69,8 @@ spreadsheet = "Wodify - Crossfit"
 You can run it manually or in a crontab.
 
 ### Manually
+
+
 ```
 [20:01:13] $ ./wodify.py
 Tweet: (datetime.datetime(2018, 4, 23, 7, 15, 21), u'Joao Rechena', u'#wodify Back squat: 3 x 4 @ 60 kg | Comment: 3x6 @ 55')
@@ -92,6 +94,46 @@ How does it look on Google Spreadsheets?
 
 <img src="images/Wodify_Crossfit_Google_Sheets.jpg">
 
+If you run the script without any options it will just use the default settings you've defined, but if you want a little more control you can run -h or --help to get the options:
+
+```
+[10:19:44] $ ./wodify.py -h
+usage: wodify.py [-h] [-s SPREADSHEET] [-w WORKSHEET] [-d [DAYS]] [--dryrun]
+                 [--version]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s SPREADSHEET, --spreadsheet SPREADSHEET
+                        Pass the spreadsheet as a option (If the spreadsheet
+                        has spaces in the name pass it with "" (e.g.: "this is
+                        a test")
+  -w WORKSHEET, --worksheet WORKSHEET
+                        Pass the sheet as a option. (If the spreadsheet has
+                        spaces in the name pass it with "" (e.g.: "this is a
+                        test")
+  -d [DAYS], --days [DAYS]
+                        In case we want to search back more than 1 day. If you
+                        use 0 as an argument it will search tweets for the
+                        current date (default is 1 day)
+  --dryrun              Run in DryRun Mode - Do not update spreadsheets
+  --version             show program's version number and exit
+```
+
+e.g.: The following command will check for tweets on the current day and inject them into a Worksheet named "Joao3".
+
+```
+10:21:10] $ ./wodify.py -d 0 -w Joao3
+[INFO] No worksheet with named Joao3 exists. Creating...
+Tweet: (datetime.datetime(2018, 4, 26, 6, 30, 27), u'Joao Rechena', u'#wodify Metcon: 14:00 | Comment: Last round only 150 skips')
+Columns: ['2018/04/26', u'Metcon', u'14:00', None, u' Last round only 150 skips']
+Tweet: (datetime.datetime(2018, 4, 26, 6, 30, 27), u'Joao Rechena', u'#wodify Pull up practice: 3 x 8 | Comment: 5kip/8pull ups green band')
+Columns: ['2018/04/26', u'Pull up practice', u' 3 x 8', None, u' 5kip/8pull ups green band']
+Tweet: (datetime.datetime(2018, 4, 26, 6, 30, 26), u'Joao Rechena', u'#wodify Snatch grip deadlift: 4 x 4 @ 50 kg')
+Columns: ['2018/04/26', u'Snatch grip deadlift', u' 4 x 4 ', u' 50 kg', None]
+
+```
+
+
 ### Crontab
 If you want to run this on a crontab style just add something like:
 
@@ -101,7 +143,15 @@ If you want to run this on a crontab style just add something like:
 
 This will run every day at 1am and get the tweets from the previous day. 
 
-_**Note**:_ Since the scrip is setup to get the tweets from the previous day you should run the crontab after midnight. 
+By default the scrip is setup to get the tweets from the previous day so you should run the crontab after midnight. If you want to run on the day you need to pass the option -d or --day and the number 0 
+
+e.g.:
+
+```
+0 1 * * * /opt/wodify/wodify.py -d 0
+```
+
+Like mentioned in the Run Manually section you can pass multiple options when running the script. See them on the Run Manually section. 
 
 # TODO
 * Add a conf file for the authentication
