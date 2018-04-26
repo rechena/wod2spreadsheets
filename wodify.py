@@ -56,15 +56,14 @@ if not spreadsheet:
 	spreadsheet = "Wodify - Crossfit"
 
 # date
-days_to_subtract = days
-onedayback = datetime.today() - timedelta(days=days_to_subtract)
+onedayback = datetime.today() - timedelta(days=days)
 
 formateddate = onedayback.strftime("%Y,%-m,%-d")
 
 def main():
 	global worksheet
 	if dryrun:
-		print "[INFO] Running in dryrun mode, not data will be updated on \"%s\" or worksheets created" % (spreadsheet)
+		print "[INFO] Running in dryrun mode, no data will be updated or worksheets created at \"%s\" " % (spreadsheet)
 		print "====================\n"
 	try:
 		for accounts in listofaccounts:
