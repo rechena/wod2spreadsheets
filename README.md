@@ -88,6 +88,10 @@ If all went good you should now have a spreadsheet called "Wodify - Crossfit" wi
 ['2018/04/23', u'Back squat', u' 3 x 4 ', u' 37.5 kg ', u' 3x6@35kg']
 ```
 
+Screenshot Example
+
+<img src="images/Wodify_Crossfit_Google_Sheets.jpg" width=200>
+
 ### Crontab
 If you want to run this on a crontab style just add something like:
 
