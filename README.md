@@ -88,7 +88,7 @@ If all went good you should now have a spreadsheet called "Wodify - Crossfit" wi
 ['2018/04/23', u'Back squat', u' 3 x 4 ', u' 37.5 kg ', u' 3x6@35kg']
 ```
 
-Screenshot Example
+How does it look on Google Spreadsheets?
 
 <img src="images/Wodify_Crossfit_Google_Sheets.jpg">
 
