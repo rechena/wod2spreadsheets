@@ -18,7 +18,7 @@ parser.add_argument('--version', action='version', version='%(prog)s 1.0')
 args = parser.parse_args()
 
 spreadsheet = args.spreadsheet
-worksheet = args.worksheet
+worksheetarg = args.worksheet
 dryrun = args.dryrun
 days = args.days
 
@@ -68,11 +68,13 @@ def main():
 	try:
 		for accounts in listofaccounts:
 			for theaccount in api.user_timeline(screen_name = accounts, count = 10):
+				if worksheetarg:
+					worksheet = worksheetarg
+				else:
+					#uses the first name of your twitter auther.name
+					worksheet = theaccount.author.name.split()[0]
 				if theaccount.created_at.strftime("%Y,%-m,%-d") == formateddate:
 					if "#wodify" in theaccount.text:
-						if not worksheet:
-							#uses the first name of your twitter auther.name
-							worksheet = theaccount.author.name.split()[0]
 						try:
 							wks = gc.open(spreadsheet).worksheet(worksheet)
 						except gspread.exceptions.WorksheetNotFound:
