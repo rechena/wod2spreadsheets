@@ -3,7 +3,7 @@ This is just a simple Python Script to Push my Wodify results to a Google Spread
 
 This script was born from the fact that both me and my wife do Crossfit and we register our Wod results on the [App Wodify]([https://app.wodify.com/WodifyAdminTheme/LoginEntry.aspx) and although we can export the results, I'm a sucker for automation. 
 
-So the app allows integration with Twitter so the only thing I needed was to scrape my account or the wife's and search for the hastag #wodify. From there on it was just a case of parsing the tweet and running this on a crontab. 
+The app allows integration with Twitter so the only thing I needed was to scrape my account or the wife's and search for the hastag #wodify. From there on it was just a case of parsing the tweet and running this on a crontab. 
 
 ### How does it work?
 The script runs every night at 1am on a crontab and checks the last day's tweets, if found it will parse the tweet and insert the results in a Google Spreadsheet. 
